@@ -25,3 +25,5 @@ export const getDeviceCoords = (): Promise<GeolocationResponse> =>
   new Promise((resolve, reject) => {
     Geolocation.getCurrentPosition(resolve, reject);
   });
+
+export const convertToFahrenheit = (value: number) => value * (9 / 5) + 32;

@@ -12,7 +12,7 @@ type SwitcherProps = {
   onStateChange?: (id: string) => void;
 };
 
-const Switcher: React.FC<SwitcherProps> = ({
+const SwitcherDumb: React.FC<SwitcherProps> = ({
   items,
   initialItemId,
   onStateChange,
@@ -51,6 +51,8 @@ const Switcher: React.FC<SwitcherProps> = ({
     </View>
   );
 };
+
+const Switcher = React.memo(SwitcherDumb);
 
 const styles = StyleSheet.create({
   container: {

@@ -14,10 +14,12 @@ import {
 import { WeatherNavigation } from '../navigation';
 import { getWindOutput, getPressureOutput, getHumidityOutput } from '../utils';
 import {
-  getIsLoading,
   getWeather,
   getWeatherError,
+  getCurrentMetrics,
   getWeatherByUserCoords,
+  setMetrics,
+  Metrics,
 } from '../modules/weather';
 
 type CityProps = {
@@ -26,11 +28,11 @@ type CityProps = {
 
 const SWITCHER_ITEMS = [
   {
-    id: 'c',
+    id: Metrics.Celsius,
     title: 'C',
   },
   {
-    id: 'f',
+    id: Metrics.Fahrenheit,
     title: 'F',
   },
 ];
@@ -38,15 +40,22 @@ const SWITCHER_ITEMS = [
 const City: React.FC<CityProps> = () => {
   const dispatch = useDispatch();
 
-  const isLoading = useSelector(getIsLoading);
   const error = useSelector(getWeatherError);
   const data = useSelector(getWeather);
+  const currentMetrics = useSelector(getCurrentMetrics);
+
+  const onChangeMetrics = React.useCallback(
+    (next: string) => {
+      dispatch(setMetrics(next as Metrics));
+    },
+    [dispatch],
+  );
 
   const onChangeCitiesPress = React.useCallback(() => {}, []);
 
   const onCurrentLocationPress = React.useCallback(() => {
     dispatch(getWeatherByUserCoords());
-  }, []);
+  }, [dispatch]);
 
   React.useEffect(() => {
     dispatch(getWeatherByUserCoords());
@@ -54,41 +63,52 @@ const City: React.FC<CityProps> = () => {
 
   return (
     <LoadingContainer isLoading={!data && !error}>
-      {() => (
-        <SafeAreaView style={styles.container}>
-          <View style={styles.rowContent}>
-            <Text style={styles.cityTitle}>{data!.name}</Text>
-            <Switcher items={SWITCHER_ITEMS} />
-          </View>
-          <View style={styles.rowContent}>
-            <LabelButton
-              title={'Сменить город'}
-              onPress={onChangeCitiesPress}
-            />
-            <LabelButton
-              title={'Мое местоположение'}
-              onPress={onCurrentLocationPress}
-            />
-          </View>
-          <View style={styles.mainContent}>
-            <WeatherBlock data={data!.weatherInfo[0]} temp={data!.main.temp} />
-          </View>
-          <View style={styles.rowContent}>
-            <ContentRow title="Ветер" value={'getWindOutput(data!.wind)'} />
-            <ContentRow
-              title="Давление"
-              value={'getPressureOutput(data!.main)'}
-            />
-          </View>
-          <View style={[styles.rowContent, styles.rowContentMargin]}>
-            <ContentRow
-              title="Влажность"
-              value={'getHumidityOutput(data!.main)'}
-            />
-            <ContentRow title="Вероятность дождя" value="Вероятно" />
-          </View>
-        </SafeAreaView>
-      )}
+      {() => {
+        const weather = data!;
+
+        return (
+          <SafeAreaView style={styles.container}>
+            <View style={styles.rowContent}>
+              <Text style={styles.cityTitle}>{weather.name}</Text>
+              <Switcher
+                items={SWITCHER_ITEMS}
+                initialItemId={currentMetrics}
+                onStateChange={onChangeMetrics}
+              />
+            </View>
+            <View style={styles.rowContent}>
+              <LabelButton
+                title={'Сменить город'}
+                onPress={onChangeCitiesPress}
+              />
+              <LabelButton
+                title={'Мое местоположение'}
+                onPress={onCurrentLocationPress}
+              />
+            </View>
+            <View style={styles.mainContent}>
+              <WeatherBlock
+                data={weather.weatherInfo[0]}
+                temp={weather.main.temp}
+              />
+            </View>
+            <View style={styles.rowContent}>
+              <ContentRow title="Ветер" value={'getWindOutput(data!.wind)'} />
+              <ContentRow
+                title="Давление"
+                value={'getPressureOutput(data!.main)'}
+              />
+            </View>
+            <View style={[styles.rowContent, styles.rowContentMargin]}>
+              <ContentRow
+                title="Влажность"
+                value={'getHumidityOutput(data!.main)'}
+              />
+              <ContentRow title="Вероятность дождя" value="Вероятно" />
+            </View>
+          </SafeAreaView>
+        );
+      }}
     </LoadingContainer>
   );
 };

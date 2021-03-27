@@ -1,7 +1,7 @@
-import { createAction, handleActions } from 'redux-actions';
+import { createAction, handleAction, handleActions } from 'redux-actions';
 import { combineReducers } from 'redux';
 import { ofType } from '../../utils';
-import { Coords, Weather } from './types';
+import { Coords, Metrics, Weather } from './types';
 
 export const getWeatherRequest = createAction<{ id: number } | Coords>(
   'GET_WEATHER_REQUEST',
@@ -12,6 +12,7 @@ export const getWeatherFailure = createAction('GET_WEATHER_FAILURE');
 export const getWeatherByUserCoords = createAction(
   'GET_WEATHER_BY_USER_COORDS',
 );
+export const setMetrics = createAction<Metrics>('SET_METRICS');
 
 const isLoading = handleActions<boolean, undefined>(
   {
@@ -37,10 +38,17 @@ const error = handleActions<Error | null, Error | undefined | null>(
   null,
 );
 
+const currentMetrics = handleAction<Metrics, Metrics>(
+  setMetrics,
+  (_, { payload }) => payload,
+  Metrics.Celsius,
+);
+
 const weatherReducer = combineReducers({
   isLoading,
   data,
   error,
+  currentMetrics,
 });
 
 export default weatherReducer;

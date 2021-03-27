@@ -39,3 +39,8 @@ export type Weather = {
   clouds: Clouds;
   wind: Wind;
 };
+
+export enum Metrics {
+  Celsius = 'c',
+  Fahrenheit = 'f',
+}
