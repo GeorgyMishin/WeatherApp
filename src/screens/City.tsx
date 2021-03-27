@@ -21,7 +21,6 @@ import {
   Metrics,
 } from '../modules/weather';
 import I18n from '../locales';
-import { getWindOutput } from '../locales/outputs';
 
 type CityProps = {
   route: RouteProp<WeatherNavigation, 'City'>;
