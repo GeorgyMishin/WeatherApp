@@ -13,14 +13,20 @@ const defaultInterpolator = (val: Animated.Value): object => {
 
 type AppearingComponentProps = {
   interpolator?: typeof defaultInterpolator;
+  onHide?: () => void;
+  onShow?: () => void;
   isVisible?: boolean;
+  unmountOnHide?: boolean;
   style?: ViewStyle | ViewStyle[];
   children: any;
 };
 
 const AppearingComponentDumb: React.FC<AppearingComponentProps> = ({
   isVisible,
+  unmountOnHide,
   interpolator = defaultInterpolator,
+  onHide,
+  onShow,
   style,
   children,
   ...props
@@ -46,13 +52,21 @@ const AppearingComponentDumb: React.FC<AppearingComponentProps> = ({
       duration: 500,
       useNativeDriver: true,
     }).start(({ finished }) => {
-      if (finished && !isVisible) {
+      if (!finished) {
+        return;
+      }
+
+      if (isVisible) {
+        onShow?.();
+      } else {
         setRendering(false);
+        onHide?.();
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isVisible, transition]);
 
-  return rendering ? (
+  return rendering || !unmountOnHide ? (
     <Animated.View style={[style, interpolatedStyles]} {...props}>
       {children}
     </Animated.View>

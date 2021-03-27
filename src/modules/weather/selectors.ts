@@ -11,8 +11,11 @@ export const getWeatherError = (state: RootState): Error | null =>
 export const getCurrentMetrics = (state: RootState): Metrics =>
   state.weather.currentMetrics;
 
+export const getEmptyWeather = (state: RootState): Weather | null =>
+  state.weather.data;
+
 export const getWeather = (state: RootState): Weather | null => {
-  const weather = state.weather.data;
+  const weather = getEmptyWeather(state);
   if (!weather) {
     return null;
   }

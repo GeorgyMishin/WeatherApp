@@ -3,11 +3,16 @@ import { combineReducers } from 'redux';
 import { ofType } from '../../utils';
 import { Coords, Metrics, Weather } from './types';
 
-export const getWeatherRequest = createAction<{ q: string } | Coords>(
+export type RequestWeatherPayload = { q: string } | Coords;
+
+export const getWeatherRequest = createAction<RequestWeatherPayload>(
   'GET_WEATHER_REQUEST',
 );
 export const getWeatherSuccess = createAction<Weather>('GET_WEATHER_SUCCESS');
 export const getWeatherFailure = createAction('GET_WEATHER_FAILURE');
+
+export const resetWeather = createAction('RESET_WEATHER');
+export const setWeather = createAction<Weather | null>('SET_WEATHER');
 
 export const getWeatherByUserCoords = createAction(
   'GET_WEATHER_BY_USER_COORDS',
@@ -26,6 +31,8 @@ const isLoading = handleActions<boolean, undefined>(
 const data = handleActions<Weather | null, Weather>(
   {
     [ofType(getWeatherSuccess)]: (_, { payload }) => payload,
+    [ofType(resetWeather)]: () => null,
+    [ofType(setWeather)]: (_, { payload }) => payload,
   },
   null,
 );

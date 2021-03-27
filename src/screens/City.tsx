@@ -9,12 +9,13 @@ import {
   ContentRow,
   WeatherBlock,
   LoadingContainer,
+  AppearingComponent,
 } from '../components';
 import { MetricsSwitcher, SearchCityInput } from '../components/city';
 import { WeatherNavigation } from '../navigation';
 import {
+  getIsLoading,
   getWeather,
-  getWeatherError,
   getWeatherByUserCoords,
 } from '../modules/weather';
 import I18n from '../locales';
@@ -26,8 +27,8 @@ type CityProps = {
 const City: React.FC<CityProps> = () => {
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
 
-  const error = useSelector(getWeatherError);
   const data = useSelector(getWeather);
+  const isLoading = useSelector(getIsLoading);
   const dispatch = useDispatch();
 
   const onSearchComplete = React.useCallback(() => {
@@ -47,66 +48,72 @@ const City: React.FC<CityProps> = () => {
   }, [dispatch]);
 
   return (
-    <LoadingContainer isLoading={!data && !error}>
-      {() => {
-        const weather = data!;
+    <View style={styles.mainWrapper}>
+      <LoadingContainer isLoading={isLoading}>
+        {() => {
+          if (!data) {
+            return null;
+          }
 
-        return (
-          <SafeAreaView style={styles.container}>
-            <View style={styles.rowContent}>
-              <Text style={styles.cityTitle}>{weather.name}</Text>
-              <MetricsSwitcher />
-            </View>
-            <View style={styles.rowContent}>
-              <LabelButton
-                title={I18n.t('change_city')}
-                onPress={onChangeCityPress}
-              />
-              <LabelButton
-                title={I18n.t('my_location')}
-                onPress={onCurrentLocationPress}
-              />
-            </View>
-            <View style={styles.mainContent}>
-              <WeatherBlock
-                data={weather.weatherInfo[0]}
-                temp={weather.main.temp}
-              />
-            </View>
-            <View style={styles.rowContent}>
-              <ContentRow
-                title={I18n.t('wind')}
-                value={I18n.t('wind_output', weather.wind)}
-              />
-              <ContentRow
-                title={I18n.t('pressure')}
-                value={I18n.t('pressure_output', weather.main)}
-              />
-            </View>
-            <View style={[styles.rowContent, styles.rowContentMargin]}>
-              <ContentRow
-                title={I18n.t('humidity')}
-                value={I18n.toPercentage(weather.main.humidity, {
-                  precision: 0,
-                })}
-              />
-              <ContentRow
-                title={I18n.t('chance_of_rain')}
-                value={I18n.t('chance_of_rain_output', weather)}
-              />
-            </View>
-            <SearchCityInput
-              isVisible={isSearchOpen}
-              onComplete={onSearchComplete}
-            />
-          </SafeAreaView>
-        );
-      }}
-    </LoadingContainer>
+          return (
+            <SafeAreaView style={styles.container}>
+              <AppearingComponent isVisible={!isSearchOpen}>
+                <View style={styles.rowContent}>
+                  <Text style={styles.cityTitle}>{data.name}</Text>
+                  <MetricsSwitcher />
+                </View>
+                <View style={styles.rowContent}>
+                  <LabelButton
+                    title={I18n.t('change_city')}
+                    onPress={onChangeCityPress}
+                  />
+                  <LabelButton
+                    title={I18n.t('my_location')}
+                    onPress={onCurrentLocationPress}
+                  />
+                </View>
+              </AppearingComponent>
+              <View style={styles.mainContent}>
+                <WeatherBlock
+                  data={data.weatherInfo[0]}
+                  temp={data.main.temp}
+                />
+              </View>
+              <View style={styles.rowContent}>
+                <ContentRow
+                  title={I18n.t('wind')}
+                  value={I18n.t('wind_output', data.wind)}
+                />
+                <ContentRow
+                  title={I18n.t('pressure')}
+                  value={I18n.t('pressure_output', data.main)}
+                />
+              </View>
+              <View style={[styles.rowContent, styles.rowContentMargin]}>
+                <ContentRow
+                  title={I18n.t('humidity')}
+                  value={I18n.toPercentage(data.main.humidity, {
+                    precision: 0,
+                  })}
+                />
+                <ContentRow
+                  title={I18n.t('chance_of_rain')}
+                  value={I18n.t('chance_of_rain_output', data)}
+                />
+              </View>
+            </SafeAreaView>
+          );
+        }}
+      </LoadingContainer>
+      <SearchCityInput isVisible={isSearchOpen} onComplete={onSearchComplete} />
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  mainWrapper: {
+    flex: 1,
+  },
   container: {
     padding: 19,
     flex: 1,

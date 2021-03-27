@@ -3,7 +3,7 @@ import { View, ActivityIndicator, StyleSheet, Animated } from 'react-native';
 
 type LoadingContainerProps = {
   isLoading: boolean;
-  children: (renderTransition: Animated.Value) => React.ReactElement;
+  children: (renderTransition: Animated.Value) => React.ReactElement | null;
   interpolator?: (transition: Animated.Value) => object;
 };
 

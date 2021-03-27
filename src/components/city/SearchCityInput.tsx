@@ -19,10 +19,16 @@ const SearchCityInputDumb: React.FC<{
     onComplete();
   }, [dispatch, searchValue, onComplete]);
 
+  const onHide = React.useCallback(() => {
+    setSearchValue('');
+  }, []);
+
   return (
     <AppearingComponent
       isVisible={isVisible}
-      style={[styles.container, { top: insets.top + 27 }]}>
+      style={[styles.container, { top: insets.top + 27 }]}
+      onHide={onHide}
+      unmountOnHide>
       <SearchInput
         value={searchValue}
         onChangeText={setSearchValue}
