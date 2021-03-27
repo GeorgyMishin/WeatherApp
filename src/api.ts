@@ -1,4 +1,5 @@
 import axios from 'axios';
+import I18n from './locales';
 
 const API_KEY = '42dc7234e833bd757fbe7c3e344bf956';
 const URL = 'https://api.openweathermap.org/';
@@ -14,7 +15,10 @@ const api = axios.create({
 });
 
 api.interceptors.request.use(request => {
-  console.log('Starting Request', request);
+  request.params = {
+    ...request.params,
+    lang: I18n.currentLocale(),
+  };
   return request;
 });
 

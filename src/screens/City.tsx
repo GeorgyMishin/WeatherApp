@@ -12,7 +12,6 @@ import {
   LoadingContainer,
 } from '../components';
 import { WeatherNavigation } from '../navigation';
-import { getWindOutput, getPressureOutput, getHumidityOutput } from '../utils';
 import {
   getWeather,
   getWeatherError,
@@ -21,6 +20,8 @@ import {
   setMetrics,
   Metrics,
 } from '../modules/weather';
+import I18n from '../locales';
+import { getWindOutput } from '../locales/outputs';
 
 type CityProps = {
   route: RouteProp<WeatherNavigation, 'City'>;
@@ -78,11 +79,11 @@ const City: React.FC<CityProps> = () => {
             </View>
             <View style={styles.rowContent}>
               <LabelButton
-                title={'Сменить город'}
+                title={I18n.t('change_city')}
                 onPress={onChangeCitiesPress}
               />
               <LabelButton
-                title={'Мое местоположение'}
+                title={I18n.t('my_location')}
                 onPress={onCurrentLocationPress}
               />
             </View>
@@ -93,18 +94,23 @@ const City: React.FC<CityProps> = () => {
               />
             </View>
             <View style={styles.rowContent}>
-              <ContentRow title="Ветер" value={'getWindOutput(data!.wind)'} />
               <ContentRow
-                title="Давление"
-                value={'getPressureOutput(data!.main)'}
+                title={I18n.t('wind')}
+                value={I18n.t('wind_output', weather.wind)}
+              />
+              <ContentRow
+                title={I18n.t('pressure')}
+                value={I18n.t('pressure_output', weather.main)}
               />
             </View>
             <View style={[styles.rowContent, styles.rowContentMargin]}>
               <ContentRow
-                title="Влажность"
-                value={'getHumidityOutput(data!.main)'}
+                title={I18n.t('humidity')}
+                value={I18n.toPercentage(weather.main.humidity, {
+                  precision: 0,
+                })}
               />
-              <ContentRow title="Вероятность дождя" value="Вероятно" />
+              <ContentRow title={I18n.t('chance_of_rain')} value="Вероятно" />
             </View>
           </SafeAreaView>
         );

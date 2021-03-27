@@ -1,0 +1,10 @@
+{
+  "change_city": "Change city",
+  "my_location": "My location",
+  "wind": "Wind",
+  "pressure": "Pressure",
+  "humidity": "Humidity",
+  "pressure_output": "%{pressure} mmHg",
+  "wind_output": "%{speed} m.s.",
+  "chance_of_rain": "Change of rain"
+}

@@ -1,0 +1,10 @@
+{
+  "change_city": "Сменить город",
+  "my_location": "Мое местоположение",
+  "wind": "Ветер",
+  "pressure": "Давление",
+  "humidity": "Влажность",
+  "pressure_output": "%{pressure} мм. рт. ст",
+  "wind_output": "%{speed} м.c.",
+  "chance_of_rain": "Вероятность дождя"
+}

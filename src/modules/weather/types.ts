@@ -41,6 +41,6 @@ export type Weather = {
 };
 
 export enum Metrics {
-  Celsius = 'c',
-  Fahrenheit = 'f',
+  Celsius = 'celsius',
+  Fahrenheit = 'fahrenheit',
 }
