@@ -5,7 +5,7 @@ import { View, StatusBar, StyleSheet } from 'react-native';
 import Navigation from './navigation';
 import store from './modules/rootStore';
 
-const App = () => (
+const App: React.FC = () => (
   <View style={styles.container}>
     <StatusBar barStyle="light-content" />
     <Provider store={store}>

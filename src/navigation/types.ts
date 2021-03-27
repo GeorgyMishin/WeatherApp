@@ -1,3 +1,3 @@
 export type WeatherNavigation = {
-  City: { id: string };
+  City: undefined;
 };
