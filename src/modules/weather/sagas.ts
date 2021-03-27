@@ -11,8 +11,9 @@ import {
 import * as WeatherManager from './WeatherManager';
 import { Coords, Weather } from './types';
 import { getLocationPermission, getDeviceCoords } from '../../utils';
+import { Alert } from 'react-native';
 
-function* getWeatherSaga({ payload }: { payload: { id: number } | Coords }) {
+function* getWeatherSaga({ payload }: { payload: { q: string } | Coords }) {
   try {
     const weather = (yield call(
       WeatherManager.fetchCityWeather,
@@ -20,6 +21,8 @@ function* getWeatherSaga({ payload }: { payload: { id: number } | Coords }) {
     )) as Weather;
     yield put(getWeatherSuccess(weather));
   } catch (ex) {
+    console.log(ex.message);
+    Alert.alert('Error', 'error');
     yield put(getWeatherFailure(ex));
   }
 }

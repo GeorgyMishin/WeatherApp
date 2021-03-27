@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated, ViewProps } from 'react-native';
+import { Animated, ViewStyle } from 'react-native';
 
 const defaultInterpolator = (val: Animated.Value): object => {
   return {
@@ -11,9 +11,11 @@ const defaultInterpolator = (val: Animated.Value): object => {
   };
 };
 
-type AppearingComponentProps = ViewProps & {
+type AppearingComponentProps = {
   interpolator?: typeof defaultInterpolator;
   isVisible?: boolean;
+  style?: ViewStyle | ViewStyle[];
+  children: any;
 };
 
 const AppearingComponentDumb: React.FC<AppearingComponentProps> = ({

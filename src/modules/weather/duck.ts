@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import { ofType } from '../../utils';
 import { Coords, Metrics, Weather } from './types';
 
-export const getWeatherRequest = createAction<{ id: number } | Coords>(
+export const getWeatherRequest = createAction<{ q: string } | Coords>(
   'GET_WEATHER_REQUEST',
 );
 export const getWeatherSuccess = createAction<Weather>('GET_WEATHER_SUCCESS');

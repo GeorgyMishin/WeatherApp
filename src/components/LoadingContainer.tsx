@@ -29,7 +29,6 @@ const LoadingContainer: React.FC<LoadingContainerProps> = ({
   ]);
 
   React.useEffect(() => {
-    console.log(isLoading);
     const animation = Animated.timing(transition, {
       useNativeDriver: true,
       toValue: isLoading ? 0 : 1,

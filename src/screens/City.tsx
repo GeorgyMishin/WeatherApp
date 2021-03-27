@@ -1,29 +1,21 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteProp } from '@react-navigation/native';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import {
-  Switcher,
   LabelButton,
   ContentRow,
   WeatherBlock,
   LoadingContainer,
-  SearchInput,
-  AppearingComponent,
 } from '../components';
+import { MetricsSwitcher, SearchCityInput } from '../components/city';
 import { WeatherNavigation } from '../navigation';
 import {
   getWeather,
   getWeatherError,
-  getCurrentMetrics,
   getWeatherByUserCoords,
-  setMetrics,
-  Metrics,
 } from '../modules/weather';
 import I18n from '../locales';
 
@@ -31,38 +23,19 @@ type CityProps = {
   route: RouteProp<WeatherNavigation, 'City'>;
 };
 
-const SWITCHER_ITEMS = [
-  {
-    id: Metrics.Celsius,
-    title: 'C',
-  },
-  {
-    id: Metrics.Fahrenheit,
-    title: 'F',
-  },
-];
-
 const City: React.FC<CityProps> = () => {
-  const searchInput = React.useRef<TextInput>(null);
   const [isSearchOpen, setIsSearchOpen] = React.useState(false);
-  const insets = useSafeAreaInsets();
 
   const error = useSelector(getWeatherError);
   const data = useSelector(getWeather);
-  const currentMetrics = useSelector(getCurrentMetrics);
-
   const dispatch = useDispatch();
 
-  const onChangeMetrics = React.useCallback(
-    (next: string) => {
-      dispatch(setMetrics(next as Metrics));
-    },
-    [dispatch],
-  );
+  const onSearchComplete = React.useCallback(() => {
+    setIsSearchOpen(false);
+  }, []);
 
   const onChangeCityPress = React.useCallback(() => {
     setIsSearchOpen(true);
-    searchInput.current?.focus();
   }, []);
 
   const onCurrentLocationPress = React.useCallback(() => {
@@ -82,11 +55,7 @@ const City: React.FC<CityProps> = () => {
           <SafeAreaView style={styles.container}>
             <View style={styles.rowContent}>
               <Text style={styles.cityTitle}>{weather.name}</Text>
-              <Switcher
-                items={SWITCHER_ITEMS}
-                initialItemId={currentMetrics}
-                onStateChange={onChangeMetrics}
-              />
+              <MetricsSwitcher />
             </View>
             <View style={styles.rowContent}>
               <LabelButton
@@ -126,16 +95,10 @@ const City: React.FC<CityProps> = () => {
                 value={I18n.t('chance_of_rain_output', weather)}
               />
             </View>
-            <AppearingComponent
-              style={[styles.searchInputContainer, { top: insets.top + 27 }]}
-              visible={isSearchOpen}>
-              <SearchInput
-                autoFocus
-                ref={searchInput}
-                onBlur={() => setIsSearchOpen(false)}
-                onSubmitEditing={() => setIsSearchOpen(false)}
-              />
-            </AppearingComponent>
+            <SearchCityInput
+              isVisible={isSearchOpen}
+              onComplete={onSearchComplete}
+            />
           </SafeAreaView>
         );
       }}
@@ -165,21 +128,6 @@ const styles = StyleSheet.create({
     flex: 1,
     color: '#fff',
     fontSize: 36,
-  },
-  searchInputContainer: {
-    position: 'absolute',
-    height: 53,
-    left: 21,
-    right: 21,
-    backgroundColor: '#fff',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowColor: '#000',
-    shadowRadius: 8,
-    shadowOpacity: 0.15,
-    borderRadius: 4,
   },
 });
 
