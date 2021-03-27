@@ -3,7 +3,7 @@ import { View, TextInput, StyleSheet, TextInputProps } from 'react-native';
 
 const SearchInput: React.FC<TextInputProps> = props => (
   <View style={styles.container}>
-    <TextInput {...props} style={styles.textInput} />
+    <TextInput {...props} autoCorrect={false} style={styles.textInput} />
   </View>
 );
 
