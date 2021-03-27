@@ -1,9 +1,28 @@
 import React from 'react';
-import { View, TextInput, StyleSheet, TextInputProps } from 'react-native';
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  TextInputProps,
+} from 'react-native';
 
-const SearchInput: React.FC<TextInputProps> = props => (
+type SearchInputProps = TextInputProps & {
+  completeTitle: string;
+  onCompletePress?: () => void;
+};
+
+const SearchInput: React.FC<SearchInputProps> = ({
+  completeTitle,
+  onCompletePress,
+  ...props
+}) => (
   <View style={styles.container}>
     <TextInput {...props} autoCorrect={false} style={styles.textInput} />
+    <TouchableOpacity onPress={onCompletePress}>
+      <Text style={styles.completeTitle}>{completeTitle}</Text>
+    </TouchableOpacity>
   </View>
 );
 
@@ -17,6 +36,11 @@ const styles = StyleSheet.create({
   },
   textInput: {
     flex: 1,
+  },
+  completeTitle: {
+    color: '#1086FF',
+    fontSize: 15,
+    textTransform: 'uppercase',
   },
 });
 

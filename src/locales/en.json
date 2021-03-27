@@ -8,5 +8,6 @@
   "wind_output": "%{speed} m.s.",
   "chance_of_rain": "Change of rain",
   "chance_of_rain_output": "Maybe",
-  "error": "Error"
+  "error": "Error",
+  "ok": "Ok"
 }

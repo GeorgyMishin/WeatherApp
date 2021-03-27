@@ -5,6 +5,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import AppearingComponent from '../AppearingComponent';
 import SearchInput from '../SearchInput';
 import { getWeatherRequest } from '../../modules/weather';
+import I18n from '../../locales';
 
 const SearchCityInputDumb: React.FC<{
   isVisible: boolean;
@@ -15,7 +16,7 @@ const SearchCityInputDumb: React.FC<{
   const insets = useSafeAreaInsets();
 
   const onCompleteSearch = React.useCallback(() => {
-    dispatch(getWeatherRequest({ q: searchValue }));
+    searchValue !== '' && dispatch(getWeatherRequest({ q: searchValue }));
     onComplete();
   }, [dispatch, searchValue, onComplete]);
 
@@ -30,9 +31,11 @@ const SearchCityInputDumb: React.FC<{
       onHide={onHide}
       unmountOnHide>
       <SearchInput
+        completeTitle={I18n.t('ok')}
         value={searchValue}
         onChangeText={setSearchValue}
         onSubmitEditing={onCompleteSearch}
+        onCompletePress={onCompleteSearch}
         autoFocus
       />
     </AppearingComponent>

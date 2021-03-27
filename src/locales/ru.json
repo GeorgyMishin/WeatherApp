@@ -8,5 +8,6 @@
   "wind_output": "%{speed} м.c.",
   "chance_of_rain": "Вероятность дождя",
   "chance_of_rain_output": "Может быть",
-  "error": "Ошибка"
+  "error": "Ошибка",
+  "ok": "Ок"
 }
