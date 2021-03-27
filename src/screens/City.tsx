@@ -109,7 +109,10 @@ const City: React.FC<CityProps> = () => {
                   precision: 0,
                 })}
               />
-              <ContentRow title={I18n.t('chance_of_rain')} value="Вероятно" />
+              <ContentRow
+                title={I18n.t('chance_of_rain')}
+                value={I18n.t('chance_of_rain_output', weather)}
+              />
             </View>
           </SafeAreaView>
         );
