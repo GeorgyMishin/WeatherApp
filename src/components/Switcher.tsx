@@ -76,6 +76,7 @@ const styles = StyleSheet.create({
   },
   itemTitle: {
     fontSize: 18,
+    includeFontPadding: false,
     opacity: 0.4,
   },
   selectedItemTitle: {
