@@ -7,7 +7,11 @@ import store from './modules/rootStore';
 
 const App: React.FC = () => (
   <View style={styles.container}>
-    <StatusBar barStyle="light-content" />
+    <StatusBar
+      barStyle="light-content"
+      backgroundColor="transparent"
+      translucent
+    />
     <Provider store={store}>
       <Navigation />
     </Provider>
