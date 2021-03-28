@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 
+import commonTextStyles from '../styles/text';
+
 type SwitcherItem = {
   id: string;
   title: string;
@@ -41,6 +43,7 @@ const SwitcherDumb: React.FC<SwitcherProps> = ({
           onPress={() => onItemPress?.(id)}>
           <Text
             style={[
+              commonTextStyles.light,
               styles.itemTitle,
               id === selectedItemId && styles.selectedItemTitle,
             ]}>
@@ -72,7 +75,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
   },
   itemTitle: {
-    color: '#fff',
     fontSize: 18,
     opacity: 0.4,
   },

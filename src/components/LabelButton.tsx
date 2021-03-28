@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, Text } from 'react-native';
 
+import commonTextStyles from '../styles/text';
+
 type LabelButtonProps = {
   title: string;
   onPress?: () => void;
@@ -8,7 +10,7 @@ type LabelButtonProps = {
 
 const LabelButton: React.FC<LabelButtonProps> = ({ title, onPress }) => (
   <TouchableOpacity style={styles.container} onPress={onPress}>
-    <Text style={styles.text}>{title}</Text>
+    <Text style={[commonTextStyles.light, styles.text]}>{title}</Text>
   </TouchableOpacity>
 );
 
@@ -18,7 +20,6 @@ const styles = StyleSheet.create({
     flexShrink: 1,
   },
   text: {
-    color: '#fff',
     opacity: 0.6,
   },
 });

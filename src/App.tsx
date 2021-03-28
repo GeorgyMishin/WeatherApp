@@ -1,12 +1,13 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { View, StatusBar, StyleSheet } from 'react-native';
+import { View, StatusBar } from 'react-native';
 
 import Navigation from './navigation';
 import store from './modules/rootStore';
+import commonContainerStyles from './styles/containers';
 
 const App: React.FC = () => (
-  <View style={styles.container}>
+  <View style={commonContainerStyles.flex}>
     <StatusBar
       barStyle="light-content"
       backgroundColor="transparent"
@@ -17,11 +18,5 @@ const App: React.FC = () => (
     </Provider>
   </View>
 );
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;

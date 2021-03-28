@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
+import commonTextStyles from '../styles/text';
+
 type ContentRowProps = {
   title: string;
   value: string;
@@ -8,8 +10,8 @@ type ContentRowProps = {
 
 const ContentRowDumb: React.FC<ContentRowProps> = ({ title, value }) => (
   <View style={styles.container}>
-    <Text style={styles.title}>{title}</Text>
-    <Text style={styles.value}>{value}</Text>
+    <Text style={[commonTextStyles.light, styles.title]}>{title}</Text>
+    <Text style={[commonTextStyles.light, styles.value]}>{value}</Text>
   </View>
 );
 
@@ -21,13 +23,11 @@ const styles = StyleSheet.create({
   },
   title: {
     fontSize: 16,
-    color: '#fff',
     opacity: 0.6,
   },
   value: {
     fontSize: 18,
-    color: '#fff',
-    fontWeight: 'bold',
+    fontWeight: '700',
   },
 });
 

@@ -20,6 +20,8 @@ import {
 } from '../modules/weather';
 import I18n from '../locales';
 
+import commonContainerStyles from '../styles/containers';
+
 type CityProps = {
   route: RouteProp<WeatherNavigation, 'City'>;
 };
@@ -48,7 +50,7 @@ const City: React.FC<CityProps> = () => {
   }, [dispatch]);
 
   return (
-    <View style={styles.mainWrapper}>
+    <View style={commonContainerStyles.flex}>
       <LoadingContainer isLoading={isLoading}>
         {() => {
           if (!data) {
@@ -56,7 +58,8 @@ const City: React.FC<CityProps> = () => {
           }
 
           return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView
+              style={[commonContainerStyles.flex, styles.container]}>
               <AppearingComponent isVisible={!isSearchOpen}>
                 <View style={styles.rowContent}>
                   <Text style={styles.cityTitle}>{data.name}</Text>
@@ -73,7 +76,11 @@ const City: React.FC<CityProps> = () => {
                   />
                 </View>
               </AppearingComponent>
-              <View style={styles.mainContent}>
+              <View
+                style={[
+                  commonContainerStyles.flex,
+                  commonContainerStyles.center,
+                ]}>
                 <WeatherBlock
                   data={data.weatherInfo[0]}
                   temp={data.main.temp}
@@ -111,17 +118,8 @@ const City: React.FC<CityProps> = () => {
 };
 
 const styles = StyleSheet.create({
-  mainWrapper: {
-    flex: 1,
-  },
   container: {
     padding: 19,
-    flex: 1,
-  },
-  mainContent: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
   rowContent: {
     flexDirection: 'row',

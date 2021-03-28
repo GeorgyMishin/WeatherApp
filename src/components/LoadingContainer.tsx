@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, ActivityIndicator, StyleSheet, Animated } from 'react-native';
 
+import commonContainerStyles from '../styles/containers';
+
 type LoadingContainerProps = {
   isLoading: boolean;
   children: (renderTransition: Animated.Value) => React.ReactElement | null;
@@ -45,11 +47,15 @@ const LoadingContainer: React.FC<LoadingContainerProps> = ({
   }, [transition, isLoading]);
 
   return (
-    <View style={[styles.container, isLoading && styles.indicatorWrapper]}>
+    <View
+      style={[
+        commonContainerStyles.flex,
+        isLoading && commonContainerStyles.center,
+      ]}>
       {isLoading ? (
         <ActivityIndicator style={styles.activityIndicator} color="#fff" />
       ) : (
-        <Animated.View style={[styles.container, renderStyles]}>
+        <Animated.View style={[commonContainerStyles.flex, renderStyles]}>
           {children(transition)}
         </Animated.View>
       )}
@@ -58,13 +64,6 @@ const LoadingContainer: React.FC<LoadingContainerProps> = ({
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  indicatorWrapper: {
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   activityIndicator: {
     marginVertical: 'auto',
     marginHorizontal: 'auto',

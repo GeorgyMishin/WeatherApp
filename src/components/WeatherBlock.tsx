@@ -1,6 +1,8 @@
 import React from 'react';
 import { View, Image, Text, StyleSheet } from 'react-native';
-import { WeatherInfo } from '../models/types';
+import { WeatherInfo } from '../modules/weather';
+
+import commonTextStyles from '../styles/text';
 
 type WeatherBlockProps = {
   data: WeatherInfo;
@@ -16,11 +18,13 @@ const WeatherBlock: React.FC<WeatherBlockProps> = ({ data, temp }) => (
         }}
         style={styles.iconMock}
       />
-      <Text style={styles.value} numberOfLines={1}>
+      <Text style={[commonTextStyles.light, styles.value]} numberOfLines={1}>
         {Math.round(temp)} º
       </Text>
     </View>
-    <Text style={styles.description}>{data.description}</Text>
+    <Text style={[commonTextStyles.light, styles.description]}>
+      {data.description}
+    </Text>
   </View>
 );
 
@@ -38,12 +42,10 @@ const styles = StyleSheet.create({
     flexShrink: 1,
     fontSize: 80,
     fontWeight: '200',
-    color: '#fff',
   },
   description: {
-    color: '#fff',
     textAlign: 'center',
-    fontSize: 12,
+    fontSize: 18,
   },
 });
 
