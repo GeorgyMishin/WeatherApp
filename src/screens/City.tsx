@@ -21,6 +21,7 @@ import {
   getWeatherError,
 } from '../modules/weather';
 import I18n from '../locales';
+import assets from '../assets';
 
 import commonContainerStyles from '../styles/containers';
 
@@ -79,6 +80,7 @@ const City: React.FC<CityProps> = () => {
                   />
                   <LabelButton
                     title={I18n.t('my_location')}
+                    icon={assets.icons.location}
                     onPress={onCurrentLocationPress}
                   />
                 </View>
