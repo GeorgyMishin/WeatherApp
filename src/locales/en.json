@@ -9,5 +9,6 @@
   "chance_of_rain": "Change of rain",
   "chance_of_rain_output": "Maybe",
   "error": "Error",
-  "ok": "Ok"
+  "ok": "Ok",
+  "restart": "Restart"
 }

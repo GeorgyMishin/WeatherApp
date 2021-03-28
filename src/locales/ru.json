@@ -9,5 +9,6 @@
   "chance_of_rain": "Вероятность дождя",
   "chance_of_rain_output": "Может быть",
   "error": "Ошибка",
-  "ok": "Ок"
+  "ok": "Ок",
+  "restart": "Повторить"
 }

@@ -10,6 +10,7 @@ import {
   WeatherBlock,
   LoadingContainer,
   AppearingComponent,
+  ErrorBlock,
 } from '../components';
 import { MetricsSwitcher, SearchCityInput } from '../components/city';
 import { WeatherNavigation } from '../navigation';
@@ -17,6 +18,7 @@ import {
   getIsLoading,
   getWeather,
   getWeatherByUserCoords,
+  getWeatherError,
 } from '../modules/weather';
 import I18n from '../locales';
 
@@ -31,6 +33,7 @@ const City: React.FC<CityProps> = () => {
 
   const data = useSelector(getWeather);
   const isLoading = useSelector(getIsLoading);
+  const error = useSelector(getWeatherError);
   const dispatch = useDispatch();
 
   const onSearchComplete = React.useCallback(() => {
@@ -53,6 +56,10 @@ const City: React.FC<CityProps> = () => {
     <View style={commonContainerStyles.flex}>
       <LoadingContainer isLoading={isLoading}>
         {() => {
+          if (!data && error) {
+            return <ErrorBlock onRestartPress={onCurrentLocationPress} />;
+          }
+
           if (!data) {
             return null;
           }
